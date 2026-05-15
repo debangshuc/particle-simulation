@@ -21,15 +21,23 @@ void MoveParticle(Particle *particle){
 
     //Collision on Walls Logic
     if (coord_x - radius <0){
+
+        particle->coord_x = radius;
         particle->vel_x= -particle->vel_x;
     }
     if (coord_x + radius > WIDTH){
+
+        particle->coord_x = WIDTH - radius;
         particle->vel_x = -particle->vel_x;
     }
     if (coord_y - radius < 0){
+
+        particle->coord_y = radius;
         particle->vel_y= -particle->vel_y;
     }
     if (coord_y + radius > HEIGHT){
+
+        particle->coord_y = HEIGHT - radius;
         particle->vel_y = -particle->vel_y;
     }
 
