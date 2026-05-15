@@ -1,5 +1,7 @@
 #include "raylib.h"
+#include <time.h>
 
+#define NUM 5
 #define WIDTH 900
 #define HEIGHT 600
 
@@ -7,6 +9,9 @@
 typedef struct{
     float coord_x , coord_y, radius, vel_x , vel_y;
 }Particle;
+
+Particle arr_particle[NUM];
+
 
 
 // Updates Particle Position on Screen
@@ -44,6 +49,14 @@ void MoveParticle(Particle *particle){
 }
 
 
+void ParticlesVelocityUpdate(){
+    for(int i= 0; i<NUM ; i++){
+        MoveParticle(arr_particle+i);
+    }
+}
+
+
+
 // Draws the Particle on Screen
 
 void ParticleDraw(Particle *particle){
@@ -52,22 +65,47 @@ void ParticleDraw(Particle *particle){
 }
 
 
+void ParticlesDraw(){
+    for(int i=0 ; i<NUM ; i++){
+        ParticleDraw(arr_particle+i);
+    }
+}
 
 
+
+
+
+void CreateParticles(){
+
+    SetRandomSeed(time(NULL));
+
+    float radius;
+    for(int i=0 ; i<NUM ; i++){
+        radius = GetRandomValue(10,15);
+        arr_particle[i].radius = radius;
+        arr_particle[i].coord_x = GetRandomValue(radius,WIDTH - radius);
+        arr_particle[i].coord_y = GetRandomValue(radius , HEIGHT- radius);
+        arr_particle[i].vel_x = GetRandomValue(-6,7);
+        arr_particle[i].vel_y = GetRandomValue(-6,7);
+    }
+}
 
 int main(void)
 {
     InitWindow(WIDTH, HEIGHT, "Particle Simulation");
     SetTargetFPS(60);
 
-    Particle particle = {300, 300 , 40 , -5 , 7};
+    CreateParticles();
+
+    
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
-            ClearBackground(GRAY);
-            MoveParticle(&particle);
-            ParticleDraw(&particle);
+            ClearBackground(BLACK);
+            ParticlesVelocityUpdate();
+            ParticlesDraw();
+            DrawFPS(10,10);
         EndDrawing();
     }
 
