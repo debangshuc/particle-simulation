@@ -1,7 +1,7 @@
 #include "raylib.h"
 
-#define WIDTH 800
-#define HEIGHT 700
+#define WIDTH 900
+#define HEIGHT 600
 
 // Particle Data
 typedef struct{
@@ -18,17 +18,19 @@ void MoveParticle(Particle *particle){
     float coord_y = particle->coord_y;
     float radius = particle->radius;
 
+
+    //Collision on Walls Logic
     if (coord_x - radius <0){
-        particle->coord_x = -particle->coord_x;
+        particle->vel_x= -particle->vel_x;
     }
     if (coord_x + radius > WIDTH){
-        particle->coord_x = -particle->coord_x;
+        particle->vel_x = -particle->vel_x;
     }
     if (coord_y - radius < 0){
-        particle->coord_y = -particle->coord_y;
+        particle->vel_y= -particle->vel_y;
     }
     if (coord_y + radius > HEIGHT){
-        particle->coord_y = -particle->coord_y;
+        particle->vel_y = -particle->vel_y;
     }
 
 }
@@ -50,7 +52,7 @@ int main(void)
     InitWindow(WIDTH, HEIGHT, "Particle Simulation");
     SetTargetFPS(60);
 
-    Particle particle = {250, 250 , 35 , -5 , -5};
+    Particle particle = {300, 300 , 40 , -5 , 7};
 
     while (!WindowShouldClose())
     {
